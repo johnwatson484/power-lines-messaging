@@ -21,7 +21,9 @@ Set the type of queue to connect to.
 ```
 QueueType queueType = QueueType.Worker;
 // or
-QueueType queueType = QueueType.Exchange;
+QueueType queueType = QueueType.ExchangeDirect;
+// or
+QueueType queueType = QueueType.ExchangeFanout;
 ```
 
 ### Sending a message
@@ -46,6 +48,8 @@ Create an instance of a `Consumer` class and connect to queue.
 ```
 Consumer consumer = new Consumer();
 await consumer.CreateConnectionToQueue(queueType, brokerUrl.ToString(), "queue");
+// or if direct queue specify routing key
+await consumer.CreateConnectionToQueue(queueType, brokerUrl.ToString(), "queue", "routingKey");
 ```
 
 Start listening for new messages passing a method to run on receipt of a message. 
