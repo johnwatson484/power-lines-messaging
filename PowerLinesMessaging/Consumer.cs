@@ -67,8 +67,12 @@ namespace PowerLinesMessaging
                 case QueueType.Worker:
                     CreateWorkerQueue();
                     break;
-                case QueueType.Exchange:
-                    CreateExchange();
+                case QueueType.ExchangeFanout:
+                    CreateExchange(true);
+                    BindQueue();
+                    break;
+                case QueueType.ExchangeDirect:
+                    CreateExchange(false);
                     BindQueue();
                     break;
                 default:
@@ -85,9 +89,9 @@ namespace PowerLinesMessaging
                                  arguments: null);
         }
 
-        private void CreateExchange()
+        private void CreateExchange(bool fanout = true)
         {
-            channel.ExchangeDeclare(queue, ExchangeType.Fanout, true, false);
+            channel.ExchangeDeclare(queue, fanout ? ExchangeType.Fanout : ExchangeType.Direct, true, false);
         }
 
         
@@ -102,7 +106,7 @@ namespace PowerLinesMessaging
 
         private string GetQueueName()
         {
-            return queueType == QueueType.Exchange ? tempQueue : queue;
+            return queueType == QueueType.Worker ? queue : tempQueue;
         }
     }
 }
