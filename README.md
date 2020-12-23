@@ -13,7 +13,7 @@ string host = "localhost";
 int port = 5672;
 string username = "username";
 string password = "password";
-BrokerUrl brokerUrl = new BrokerUrl(host, port, username, password)
+BrokerUrl brokerUrl = new BrokerUrl(host, port, username, password);
 ```
 
 Set the type of queue to connect to.
@@ -36,8 +36,8 @@ Send a message passing the message body as an instance of an `object` and option
 
 ```
 object obj = new object();
-string senderName = "my-service"
-sender.SendMessage(obj, senderName)
+string senderName = "my-service";
+sender.SendMessage(obj, senderName);
 ```
 
 ### Receiving a message
