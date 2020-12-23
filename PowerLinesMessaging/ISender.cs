@@ -6,6 +6,6 @@ namespace PowerLinesMessaging
 
         void CloseConnection();
 
-        void SendMessage(object obj, string routingKey = null);
+        void SendMessage(object obj, string routingKey = "");
     }
 }

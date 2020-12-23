@@ -29,13 +29,13 @@ namespace PowerLinesMessaging
             connection.Close();
         }
 
-        public void SendMessage(object obj, string routingKey = null)
+        public void SendMessage(object obj, string routingKey = "")
         {
             var message = JsonConvert.SerializeObject(obj);            
             var body = Encoding.UTF8.GetBytes(message);
 
-            channel.BasicPublish(exchange: queue,
-                                 routingKey: routingKey,
+            channel.BasicPublish(exchange: GetExchangeName(),
+                                 routingKey: !string.IsNullOrEmpty(routingKey) ? routingKey : GetQueueName(),
                                  basicProperties: null,
                                  body: body);
         }
