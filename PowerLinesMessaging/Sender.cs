@@ -26,7 +26,7 @@ namespace PowerLinesMessaging
             connection.Close();
         }
 
-        public void SendMessage(object obj, string routingKey)
+        public void SendMessage(object obj, string routingKey = null)
         {
             var message = JsonConvert.SerializeObject(obj);            
             var body = Encoding.UTF8.GetBytes(message);
