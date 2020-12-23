@@ -21,7 +21,7 @@ Set the type of queue to connect to.
 ```
 QueueType queueType = QueueType.Worker;
 // or
-QueueType queueType = QueueType.Exchamge;
+QueueType queueType = QueueType.Exchange;
 ```
 
 ### Sending a message
