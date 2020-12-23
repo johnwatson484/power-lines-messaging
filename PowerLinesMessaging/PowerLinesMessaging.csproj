@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>PowerLinesMessaging</PackageId>
+    <Version>1.0.0-alpha</Version>
+    <Authors>John Watson</Authors>
+    <Company>John Watson</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
