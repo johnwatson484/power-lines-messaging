@@ -13,11 +13,13 @@ namespace PowerLinesMessaging
         protected QueueType queueType;
         protected string queue;
         protected string tempQueue;
+        protected string serviceName;
 
-        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue)
+        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue, string serviceName = "")
         {
             this.queueType = queueType;
             this.queue = queue;
+            this.serviceName = serviceName;
             CreateConnectionFactory(brokerUrl);
             CreateConnection();
             CreateChannel();
@@ -101,12 +103,17 @@ namespace PowerLinesMessaging
             tempQueue = channel.QueueDeclare().QueueName;
             channel.QueueBind(queue: tempQueue,
                               exchange: queue,
-                              routingKey: "");
+                              routingKey: GetExchangeRoutingKey());
         }
 
         private string GetQueueName()
         {
             return queueType == QueueType.Worker ? queue : tempQueue;
+        }
+
+        private string GetExchangeRoutingKey()	
+        {	
+            return queueType == QueueType.ExchangeDirect ? serviceName : "";	
         }
     }
 }
