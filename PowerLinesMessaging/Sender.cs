@@ -10,15 +10,18 @@ namespace PowerLinesMessaging
         protected ConnectionFactory connectionFactory;
         protected RabbitMQ.Client.IConnection connection;
         protected IModel channel;
+        protected QueueType queueType;
         protected string queue;
 
-        public void CreateConnectionToQueue(string brokerUrl, string queue)
+
+        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue)
         {
+            this.queueType = queueType;
             this.queue = queue;
             CreateConnectionFactory(brokerUrl);
             CreateConnection();
             CreateChannel();
-            CreateExchange();
+            CreateQueue();
         }
 
         public void CloseConnection()
@@ -54,9 +57,43 @@ namespace PowerLinesMessaging
             channel = connection.CreateModel();
         }
 
+        private void CreateQueue()
+        {
+            switch (queueType)
+            {
+                case QueueType.Worker:
+                    CreateWorkerQueue();
+                    break;
+                case QueueType.Exchange:
+                    CreateExchange();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void CreateWorkerQueue()
+        {
+            channel.QueueDeclare(queue: queue,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
+        }
+
         private void CreateExchange()
         {
-            channel.ExchangeDeclare(queue, ExchangeType.Direct, true, false);
+            channel.ExchangeDeclare(queue, ExchangeType.Fanout, true, false);
+        }
+
+        private string GetExchangeName()
+        {
+            return queueType == QueueType.Exchange ? queue : "";
+        }
+
+        private string GetQueueName()
+        {
+            return queueType == QueueType.Worker ? queue : "";
         }
     }
 }

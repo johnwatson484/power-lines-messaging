@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>PowerLinesMessaging</PackageId>
-    <Version>1.0.0-dev1</Version>
+    <Version>1.0.0-dev2</Version>
     <Authors>John Watson</Authors>
     <Company>John Watson</Company>
   </PropertyGroup>
