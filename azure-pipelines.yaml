@@ -1,0 +1,17 @@
+trigger:
+  - main
+
+pr: none
+
+resources:
+  repositories:
+  - repository: templates
+    type: github
+    endpoint: John D Watson
+    name: johnwatson484/azure-devops-templates
+
+extends:
+  template: build-nuget.yaml@templates
+  parameters:
+    repo: power-lines-messaging
+    project: PowerLinesMessaging
