@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/johnwatson484/John%20D%20Watson/_apis/build/status/Power%20Lines%20Messaging?branchName=main)](https://dev.azure.com/johnwatson484/John%20D%20Watson/_build/latest?definitionId=47&branchName=main)
+
 # Power Lines Messaging
 NuGet package to abstract RabbitMQ messaging capability.
 
