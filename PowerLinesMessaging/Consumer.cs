@@ -24,7 +24,7 @@ namespace PowerLinesMessaging
             CreateConnectionFactory(options.BrokerUrl);
             CreateConnection();
             CreateChannel();
-            CreateQueue();
+            CreateQueueBinding();
         }
 
         public void CloseConnection()
@@ -63,12 +63,12 @@ namespace PowerLinesMessaging
             channel = connection.CreateModel();
         }
 
-        private void CreateQueue()
+        private void CreateQueueBinding()
         {
             switch (queueType)
             {
                 case QueueType.Worker:
-                    CreateWorkerQueue();
+                    CreateQueue(queue);
                     break;
                 case QueueType.ExchangeFanout:
                     CreateExchange(true);
@@ -83,9 +83,9 @@ namespace PowerLinesMessaging
             }
         }
 
-        private void CreateWorkerQueue()
+        private void CreateQueue(string queueName)
         {
-            channel.QueueDeclare(queue: queue,
+            channel.QueueDeclare(queue: queueName,
                                  durable: true,
                                  exclusive: false,
                                  autoDelete: false,
@@ -101,7 +101,15 @@ namespace PowerLinesMessaging
 
         private void BindQueue()
         {
-            subscriptionQueue ??= channel.QueueDeclare().QueueName;
+            if(subscriptionQueue != null)
+            {
+                CreateQueue(subscriptionQueue);
+            }
+            else
+            {
+                subscriptionQueue = channel.QueueDeclare().QueueName;
+            }
+
             channel.QueueBind(queue: subscriptionQueue,
                               exchange: queue,
                               routingKey: GetExchangeRoutingKey());
