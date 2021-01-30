@@ -4,7 +4,7 @@ namespace PowerLinesMessaging
 {
     public interface IConsumer
     {
-        void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue, string serviceName = "");
+        void CreateConnectionToQueue(ConsumerOptions options);
 
         void CloseConnection();
 

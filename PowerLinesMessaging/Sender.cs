@@ -14,11 +14,11 @@ namespace PowerLinesMessaging
         protected string queue;
 
 
-        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue)
+        public void CreateConnectionToQueue(SenderOptions options)
         {
-            this.queueType = queueType;
-            this.queue = queue;
-            CreateConnectionFactory(brokerUrl);
+            this.queueType = options.QueueType;
+            this.queue = options.QueueName;
+            CreateConnectionFactory(options.BrokerUrl);
             CreateConnection();
             CreateChannel();
             CreateQueue();

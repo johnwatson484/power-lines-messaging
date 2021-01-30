@@ -12,15 +12,16 @@ namespace PowerLinesMessaging
         protected IModel channel;
         protected QueueType queueType;
         protected string queue;
-        protected string tempQueue;
-        protected string serviceName;
+        protected string subscriptionQueue;
+        protected string routingKey;
 
-        public void CreateConnectionToQueue(QueueType queueType, string brokerUrl, string queue, string serviceName = "")
+        public void CreateConnectionToQueue(ConsumerOptions options)
         {
-            this.queueType = queueType;
-            this.queue = queue;
-            this.serviceName = serviceName;
-            CreateConnectionFactory(brokerUrl);
+            this.queueType = options.QueueType;
+            this.queue = options.QueueName;
+            this.routingKey = options.RoutingKey;
+            this.subscriptionQueue = options.SubscriptionQueueName;
+            CreateConnectionFactory(options.BrokerUrl);
             CreateConnection();
             CreateChannel();
             CreateQueue();
@@ -100,20 +101,20 @@ namespace PowerLinesMessaging
 
         private void BindQueue()
         {
-            tempQueue = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: tempQueue,
+            subscriptionQueue ??= channel.QueueDeclare().QueueName;
+            channel.QueueBind(queue: subscriptionQueue,
                               exchange: queue,
                               routingKey: GetExchangeRoutingKey());
         }
 
         private string GetQueueName()
         {
-            return queueType == QueueType.Worker ? queue : tempQueue;
+            return queueType == QueueType.Worker ? queue : subscriptionQueue;
         }
 
         private string GetExchangeRoutingKey()	
         {	
-            return queueType == QueueType.ExchangeDirect ? serviceName : "";	
+            return queueType == QueueType.ExchangeDirect ? routingKey : "";	
         }
     }
 }
