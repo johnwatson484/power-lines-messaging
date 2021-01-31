@@ -1,4 +1,6 @@
 
+using System;
+
 namespace PowerLinesMessaging
 {
     public class ConsumerOptions : Options
