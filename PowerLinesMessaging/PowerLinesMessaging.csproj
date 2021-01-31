@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>PowerLinesMessaging</PackageId>
-    <Version>3.0.0-alpha.3</Version>
+    <Version>3.0.0-alpha.4</Version>
     <Authors>John Watson</Authors>
     <Company>John Watson</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>RabbitMQ abstraction</Description>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
