@@ -11,7 +11,7 @@ namespace PowerLinesMessaging
         protected RabbitMQ.Client.IConnection connection;
         protected List<Channel> channels;
 
-        public void CreateConnection(ConnectionOptions options)
+        public Connection(ConnectionOptions options)
         {
             CreateConnectionFactory(options.BrokerUrl);
             CreateConnection();
