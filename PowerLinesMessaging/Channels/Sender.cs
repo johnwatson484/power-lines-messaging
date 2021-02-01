@@ -14,7 +14,7 @@ namespace PowerLinesMessaging
 
         public void SendMessage(object obj, string routingKey = "")
         {
-            var message = JsonConvert.SerializeObject(obj);            
+            var message = JsonConvert.SerializeObject(obj);
             var body = Encoding.UTF8.GetBytes(message);
 
             channel.BasicPublish(exchange: GetExchangeName(),

@@ -4,64 +4,83 @@
 NuGet package to abstract RabbitMQ messaging capability.
 
 ## PreRequisites
-
 - .NET Core 3.1
 
 ## Usage
-Create an instance of a `BrokerUrl` class
+Create a new instance of a `Connection` with `ConnectionOptions`.
 
 ```
-string host = "localhost";
-int port = 5672;
-string username = "username";
-string password = "password";
-BrokerUrl brokerUrl = new BrokerUrl(host, port, username, password);
-```
-
-Set the type of queue to connect to.
-
-```
-QueueType queueType = QueueType.Worker;
-// or
-QueueType queueType = QueueType.ExchangeDirect;
-// or
-QueueType queueType = QueueType.ExchangeFanout;
+var options = new ConnectionOptions
+{
+    Host = "localhost",
+    Port = 5672
+    Username = "username",
+    Password = "password"
+};
+var connection = new Connection(options);
 ```
 
 ### Sending a message
-Create an instance of a `Sender` class and connect to queue.
+Create a new Sender channel on a connection.
 
 ```
-Sender sender = new Sender();
-await sender.CreateConnectionToQueue(queueType, brokerUrl.ToString(), "queue");
-```
+var options = new SenderOptions
+{
+    Name = "My sending channel",
+    QueueName = "my-queue",
+    QueueType = QueueType.ExchangeFanout
+};
 
-Send a message passing the message body as an instance of an `object` and optionally the name of the sender.
+var sender = connection.CreateSenderChannel(options);
 
-```
 object obj = new object();
-string senderName = "my-service";
-sender.SendMessage(obj, senderName);
+sender.sendMessage(obj);
+
+// if QueueType is `ExchangeDirect` then a routing key can be supplied
+sender.sendMessage(obj, "routing-key");
 ```
+
+The `QueueType` represents the target for publishing of which there are three options:
+- `QueueType.Worker` - Worker queue
+- `QueueType.ExchangeDirect` - Exchange of type direct where routing key can be supplied for message filtering
+- `QueueType.ExchangeFanout` - Exchange of type fanout
 
 ### Receiving a message
-Create an instance of a `Consumer` class and connect to queue.
+Create a new Receiver channel on a connection.
 
 ```
-Consumer consumer = new Consumer();
-await consumer.CreateConnectionToQueue(queueType, brokerUrl.ToString(), "queue");
-// or if direct queue specify routing key
-await consumer.CreateConnectionToQueue(queueType, brokerUrl.ToString(), "queue", "routingKey");
-```
+var options = new ConsumerOptions
+{
+    Name = "My receiving channel",
+    QueueName = "my-queue",
+    SubscriptionQueueName = "my-queue-subscription", // optional, if not supplied a temporary auto delete subscription queue is added.
+    QueueType = QueueType.ExchangeFanout,
+    RoutingKey = "routing-key" // optional, if QueueType is ExchangeDirect and a routing key is needed for message filtering.
+};
 
-Start listening for new messages passing a method to run on receipt of a message. 
+var consumer = connection.CreateConsumerChannel(options);
 
-```
+consumer.Listen(new Action<string>(ReceiveMessage));
+
+...
 public void ReceiveMessage(string message)
 {
     Console.WriteLine(message);
 }
-
-...
-consumer.Listen(new Action<string>(ReceiveMessage));
 ```
+
+### Closing a connection
+As RabbitMQ uses TCP connections must be terminated by the client application when they are no longer needed or when the application is terminated.
+
+```
+// close a single channel
+connection.CloseChannel("My channel name");
+
+// close all channels and the connection
+connection.CloseConnection();
+```
+
+### Best practice
+- Creating a new connection is expensive, use at most two connections, one for sending and one for receiving
+- Keep connections open rather than frequently opening and closing them
+- Ensure connections are safely closed in line with the application lifecycle
