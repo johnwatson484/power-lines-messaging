@@ -4,10 +4,10 @@ namespace PowerLinesMessaging
 {
     public class BrokerUrl
     {
-        private string host;
-        private int port;
-        private string username;
-        private string password;
+        private readonly string host;
+        private readonly int port;
+        private readonly string username;
+        private readonly string password;
 
         public BrokerUrl(string host, int port, string username, string password)
         {

@@ -36,7 +36,7 @@ namespace PowerLinesMessaging
 
         public void CloseChannel(string name)
         {
-            channels.Where(x => x.Name == name).FirstOrDefault()?.CloseChannel();
+            channels.FirstOrDefault(x => x.Name == name)?.CloseChannel();
         }
 
         public void CloseConnection()
@@ -47,7 +47,7 @@ namespace PowerLinesMessaging
 
         protected void ValidateChannelName(string name)
         {
-            if(string.IsNullOrEmpty(name) || channels.Where(x=>x.Name == name).Count() > 0)
+            if(string.IsNullOrEmpty(name) || channels.Any(x=>x.Name == name))
             {
                 throw new ArgumentException("Channel Name must be present and unique");
             }

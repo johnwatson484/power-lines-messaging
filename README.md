@@ -1,5 +1,7 @@
 [![Build Status](https://dev.azure.com/johnwatson484/John%20D%20Watson/_apis/build/status/Power%20Lines%20Messaging?branchName=main)](https://dev.azure.com/johnwatson484/John%20D%20Watson/_build/latest?definitionId=47&branchName=main)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=johnwatson484_power-lines-messaging&metric=alert_status)](https://sonarcloud.io/dashboard?id=johnwatson484_power-lines-messaging)
+
 # Power Lines Messaging
 NuGet package to abstract RabbitMQ messaging capability.
 
