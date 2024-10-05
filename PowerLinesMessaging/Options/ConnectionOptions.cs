@@ -1,17 +1,16 @@
-namespace PowerLinesMessaging
+namespace PowerLinesMessaging;
+
+public class ConnectionOptions
 {
-    public class ConnectionOptions
+    public string Host { get; set; }
+    public int Port { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string BrokerUrl
     {
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string BrokerUrl
+        get
         {
-            get
-            {
-                return new BrokerUrl(Host, Port, Username, Password).ToString();
-            }
+            return new BrokerUrl(Host, Port, Username, Password).ToString();
         }
     }
 }

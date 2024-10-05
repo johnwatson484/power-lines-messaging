@@ -1,9 +1,8 @@
-namespace PowerLinesMessaging
+namespace PowerLinesMessaging;
+
+public enum QueueType
 {
-    public enum QueueType
-    {
-        Worker,
-        ExchangeFanout,
-        ExchangeDirect
-    }
+    Worker,
+    ExchangeFanout,
+    ExchangeDirect
 }

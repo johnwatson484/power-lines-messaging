@@ -1,9 +1,8 @@
 using System;
 
-namespace PowerLinesMessaging
+namespace PowerLinesMessaging;
+
+public interface IConsumer
 {
-    public interface IConsumer
-    {
-        void Listen(Action<string> messageAction);
-    }
+    void Listen(Action<string> messageAction);
 }

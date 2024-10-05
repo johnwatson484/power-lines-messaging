@@ -1,7 +1,6 @@
-namespace PowerLinesMessaging
+namespace PowerLinesMessaging;
+
+public interface ISender
 {
-    public interface ISender
-    {
-        void SendMessage(object obj, string routingKey = "");
-    }
+    void SendMessage(object obj, string routingKey = "");
 }

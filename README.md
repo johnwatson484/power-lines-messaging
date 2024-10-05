@@ -6,12 +6,12 @@
 NuGet package to abstract RabbitMQ messaging capability.
 
 ## PreRequisites
-- .NET Core 3.1
+- .NET Core 8.0
 
 ## Usage
 Create a new instance of a `Connection` with `ConnectionOptions`.
 
-```
+```csharp
 var options = new ConnectionOptions
 {
     Host = "localhost",
@@ -25,7 +25,7 @@ var connection = new Connection(options);
 ### Sending a message
 Create a new Sender channel on a connection.
 
-```
+```csharp
 var options = new SenderOptions
 {
     Name = "My sending channel",
@@ -50,7 +50,7 @@ The `QueueType` represents the target for publishing of which there are three op
 ### Receiving a message
 Create a new Receiver channel on a connection.
 
-```
+```csharp
 var options = new ConsumerOptions
 {
     Name = "My receiving channel",
@@ -74,7 +74,7 @@ public void ReceiveMessage(string message)
 ### Closing a connection
 As RabbitMQ uses TCP connections must be terminated by the client application when they are no longer needed or when the application is terminated.
 
-```
+```csharp
 // close a single channel
 connection.CloseChannel("My channel name");
 

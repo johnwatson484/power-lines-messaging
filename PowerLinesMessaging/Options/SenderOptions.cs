@@ -1,7 +1,7 @@
 
-namespace PowerLinesMessaging
+namespace PowerLinesMessaging;
+
+public class SenderOptions : Options
 {
-    public class SenderOptions : Options
-    {
-    }
 }
+

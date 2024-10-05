@@ -1,11 +1,7 @@
+namespace PowerLinesMessaging;
 
-using System;
-
-namespace PowerLinesMessaging
+public class ConsumerOptions : Options
 {
-    public class ConsumerOptions : Options
-    {
-        public string RoutingKey { get; set; }
-        public string SubscriptionQueueName { get; set; }
-    }
+    public string RoutingKey { get; set; }
+    public string SubscriptionQueueName { get; set; }
 }

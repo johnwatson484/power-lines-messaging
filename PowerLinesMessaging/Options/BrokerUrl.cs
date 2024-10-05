@@ -1,25 +1,14 @@
-using System;
+namespace PowerLinesMessaging;
 
-namespace PowerLinesMessaging
+public class BrokerUrl(string host, int port, string username, string password)
 {
-    public class BrokerUrl
+    private readonly string host = host;
+    private readonly int port = port;
+    private readonly string username = username;
+    private readonly string password = password;
+
+    public override string ToString()
     {
-        private readonly string host;
-        private readonly int port;
-        private readonly string username;
-        private readonly string password;
-
-        public BrokerUrl(string host, int port, string username, string password)
-        {
-            this.host = host;
-            this.port = port;
-            this.username = username;
-            this.password = password;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("amqp://{0}:{1}@{2}:{3}/", username, password, host, port);            
-        }
+        return string.Format("amqp://{0}:{1}@{2}:{3}/", username, password, host, port);
     }
 }
